@@ -30,6 +30,7 @@ final class InitCheckoutRequest extends AbstractOrderRequest
 
         $data = $this->getOrderData();
         $data['function'] = 'initCheckout';
+        dd($data);
 
         return $data;
     }

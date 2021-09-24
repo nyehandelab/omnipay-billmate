@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Dalholm\Omnipay\Klarna;
+namespace Nyehandel\Omnipay\Billmate;
 
-use Dalholm\Omnipay\Klarna\Message\AbstractRequest;
+use Nyehandel\Omnipay\Billmate\Message\AbstractRequest;
 
 final class AuthenticationRequestHeaderProvider
 {

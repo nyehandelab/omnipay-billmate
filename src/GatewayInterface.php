@@ -13,32 +13,4 @@ interface GatewayInterface extends \Omnipay\Common\GatewayInterface
      * @return RequestInterface
      */
     public function acknowledge(array $options = []): RequestInterface;
-
-    /**
-     * @param array $options
-     *
-     * @return RequestInterface
-     */
-    public function extendAuthorization(array $options = []): RequestInterface;
-
-    /**
-     * @param array $options
-     *
-     * @return RequestInterface
-     */
-    public function fetchTransaction(array $options = []): RequestInterface;
-
-    /**
-     * @param array $options
-     *
-     * @return RequestInterface
-     */
-    public function updateTransaction(array $options = []): RequestInterface;
-
-    /**
-     * @param array $options
-     *
-     * @return RequestInterface
-     */
-    public function updateCustomerAddress(array $options = []): RequestInterface;
 }

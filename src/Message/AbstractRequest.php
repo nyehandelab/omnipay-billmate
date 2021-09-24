@@ -123,6 +123,17 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * @param mixed $args
+     *
+     * Generates a hash for the request based on the secret combined with the data for the current request
+     *
+     * @return string
+     */
+    private function hash($args) {
+        return hash_hmac('sha512', $args, $this->secret);
+    }
+
+    /**
      * @param string $method
      * @param string $url
      * @param mixed  $data

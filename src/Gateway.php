@@ -6,12 +6,7 @@ namespace Nyehandel\Omnipay\Billmate;
 use Nyehandel\Omnipay\Billmate\Message\AcknowledgeRequest;
 use Nyehandel\Omnipay\Billmate\Message\AuthorizeRequest;
 use Nyehandel\Omnipay\Billmate\Message\CaptureRequest;
-use Nyehandel\Omnipay\Billmate\Message\ExtendAuthorizationRequest;
-use Nyehandel\Omnipay\Billmate\Message\FetchTransactionRequest;
-use Nyehandel\Omnipay\Billmate\Message\RefundRequest;
-use Nyehandel\Omnipay\Billmate\Message\UpdateCustomerAddressRequest;
-use Nyehandel\Omnipay\Billmate\Message\UpdateMerchantReferencesRequest;
-use Nyehandel\Omnipay\Billmate\Message\UpdateTransactionRequest;
+use Nyehandel\Omnipay\Billmate\Message\InitCheckoutRequest;
 use Nyehandel\Omnipay\Billmate\Message\VoidRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
@@ -52,37 +47,13 @@ final class Gateway extends AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function extendAuthorization(array $options = []): RequestInterface
-    {
-        return $this->createRequest(ExtendAuthorizationRequest::class, $options);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fetchTransaction(array $options = []): RequestInterface
-    {
-        return $this->createRequest(FetchTransactionRequest::class, $options);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function refund(array $options = [])
-    {
-        return $this->createRequest(RefundRequest::class, $options);
-    }
-
-    /**
      * @inheritDoc
      */
     public function getDefaultParameters(): array
     {
         return [
             'base_url' => self::BASE_URL,
-            'e_id' => '',
+            'eId' => '',
             'secret' => '',
             'testMode' => true,
         ];
@@ -109,7 +80,7 @@ final class Gateway extends AbstractGateway implements GatewayInterface
      */
     public function getEId(): string
     {
-        return $this->getParameter('e_id');
+        return $this->getParameter('eId');
     }
 
     /**
@@ -127,7 +98,7 @@ final class Gateway extends AbstractGateway implements GatewayInterface
     {
         parent::initialize($parameters);
 
-        $this->setBaseUrl();
+        //$this->setBaseUrl();
 
         return $this;
     }
@@ -151,7 +122,7 @@ final class Gateway extends AbstractGateway implements GatewayInterface
      */
     public function setEId(string $eId): self
     {
-        $this->setParameter('e_id', $eId);
+        $this->setParameter('eId', $eId);
 
         return $this;
     }
@@ -161,27 +132,6 @@ final class Gateway extends AbstractGateway implements GatewayInterface
         parent::setTestMode($testMode);
 
         return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function updateCustomerAddress(array $options = []): RequestInterface
-    {
-        return $this->createRequest(UpdateCustomerAddressRequest::class, $options);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function updateTransaction(array $options = []): RequestInterface
-    {
-        return $this->createRequest(UpdateTransactionRequest::class, $options);
-    }
-
-    public function updateMerchantReferences(array $options = []): RequestInterface
-    {
-        return $this->createRequest(UpdateMerchantReferencesRequest::class, $options);
     }
 
     /**

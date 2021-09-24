@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dalholm\Omnipay\Klarna;
+namespace Nyehandel\Omnipay\Billmate;
 
 final class Address extends \ArrayObject
 {

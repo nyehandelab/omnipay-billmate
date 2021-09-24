@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dalholm\Omnipay\Klarna\Message;
+namespace Nyehandel\Omnipay\Billmate\Message;
 
 abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 {
