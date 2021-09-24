@@ -28,14 +28,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @return string|null REGION_* constant value
-     */
-    public function getApiRegion()
-    {
-        return $this->getParameter('api_region');
-    }
-
-    /**
      * @return string|null
      */
     public function getBaseUrl()
@@ -56,22 +48,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return string|null
      */
-    public function getMerchantReference1()
-    {
-        return $this->getParameter('merchant_reference1');
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMerchantReference2()
-    {
-        return $this->getParameter('merchant_reference2');
-    }
-
-    /**
-     * @return string|null
-     */
     public function getSecret()
     {
         return $this->getParameter('secret');
@@ -85,38 +61,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function getTaxAmount()
     {
         return $this->getParameter('tax_amount');
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUsername()
-    {
-        return $this->getParameter('username');
-    }
-
-    /**
-     * @param string $region
-     *
-     * @return $this
-     */
-    public function setApiRegion(string $region): self
-    {
-        $this->setParameter('api_region', $region);
-
-        return $this;
-    }
-
-    /**
-     * @param string $baseUrl
-     *
-     * @return $this
-     */
-    public function setBaseUrl(string $baseUrl): self
-    {
-        $this->setParameter('base_url', $baseUrl);
-
-        return $this;
     }
 
     /**
@@ -140,30 +84,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @param string $merchantReference
-     *
-     * @return $this
-     */
-    public function setMerchantReference1(string $merchantReference): self
-    {
-        $this->setParameter('merchant_reference1', $merchantReference);
-
-        return $this;
-    }
-
-    /**
-     * @param string $merchantReference
-     *
-     * @return $this
-     */
-    public function setMerchantReference2(string $merchantReference): self
-    {
-        $this->setParameter('merchant_reference2', $merchantReference);
-
-        return $this;
-    }
-
-    /**
      * @param string $secret
      *
      * @return $this
@@ -183,16 +103,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $this->setParameter('tax_amount', $value);
     }
 
-    /**
-     * @param string $username
-     *
-     * @return $this
-     */
-    public function setUsername(string $username): self
+    public function getCredentials()
     {
-        $this->setParameter('username', $username);
-
-        return $this;
+        return $this->getParameter('credentials');
     }
 
     /**

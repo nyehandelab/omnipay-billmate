@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Nyehandel\Omnipay\Billmate;
 
-final class Address extends \ArrayObject
+final class Credentials extends \ArrayObject
 {
     /**
      * @param array $data
      *
-     * @return Address
+     * @return Credentials
      */
-    public static function fromArray(array $data): Address
+    public static function fromArray(array $data): Credentials
     {
         $defaults = [
             'id' => null,
