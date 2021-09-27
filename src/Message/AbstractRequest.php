@@ -36,13 +36,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * RFC 1766 customer's locale.
+     * ISO 639-1 customer's language. Currently supported: sv, en
      *
      * @return string|null
      */
-    public function getLocale()
+    public function getLanguage()
     {
-        return $this->getParameter('locale');
+        return $this->getParameter('language');
     }
 
     /**
@@ -64,6 +64,18 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * @param string $baseUrl
+     *
+     * @return $this
+     */
+    public function setBaseUrl(string $baseUrl): self
+    {
+        $this->setParameter('base_url', $baseUrl);
+
+        return $this;
+    }
+
+    /**
      * @inheritdoc
      */
     public function setItems($items)
@@ -76,11 +88,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @param string $locale
+     * @param string $language
      */
-    public function setLocale(string $locale)
+    public function setLanguage(string $language)
     {
-        $this->setParameter('locale', $locale);
+        $this->setParameter('language', $language);
     }
 
     /**
@@ -105,7 +117,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     public function getCredentials()
     {
-        return $this->getParameter('credentials');
+        return [
+            'id' => $this->getParameter('eId'),
+        ];
     }
 
     /**

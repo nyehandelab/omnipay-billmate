@@ -116,7 +116,7 @@ final class Gateway extends AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @param string $username
+     * @param string $eId
      *
      * @return $this
      */

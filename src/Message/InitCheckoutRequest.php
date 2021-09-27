@@ -13,8 +13,6 @@ use Omnipay\Common\Http\Exception\RequestException;
  */
 final class InitCheckoutRequest extends AbstractOrderRequest
 {
-    use MerchantUrlsDataTrait;
-
     /**
      * @inheritDoc
      *
@@ -23,12 +21,9 @@ final class InitCheckoutRequest extends AbstractOrderRequest
     public function getData()
     {
         $this->validate(
-            'language',
-            'checkoutdata',
-            'paymentData',
-            'paymentInfo',
-            'Articles',
-            'Cart',
+            'items',
+            'checkout_data',
+            'payment_data',
         );
 
         $data = $this->getOrderData();
@@ -56,8 +51,8 @@ final class InitCheckoutRequest extends AbstractOrderRequest
     public function sendData($data)
     {
         $response = $this->getTransactionReference() ?
-            $this->sendRequest('GET', '/checkout/v3/orders/'.$this->getTransactionReference(), $data) :
-            $this->sendRequest('POST', '/checkout/v3/orders', $data);
+            $this->sendRequest('GET', '/'.$this->getTransactionReference(), $data) :
+            $this->sendRequest('POST', '/', $data);
 
         if ($response->getStatusCode() >= 400) {
             throw new InvalidResponseException(
@@ -65,7 +60,7 @@ final class InitCheckoutRequest extends AbstractOrderRequest
             );
         }
 
-        return new AuthorizeResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
+        return new InitCheckoutResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
     }
 
     /**

@@ -13,7 +13,7 @@ use Omnipay\Common\Http\Exception\RequestException;
  */
 final class AuthorizeRequest extends AbstractOrderRequest
 {
-    use MerchantUrlsDataTrait;
+    use CheckoutDataTrait;
 
     /**
      * @inheritDoc
@@ -26,7 +26,7 @@ final class AuthorizeRequest extends AbstractOrderRequest
             'amount',
             'currency',
             'items',
-            'locale',
+            'language',
             'purchase_country',
             'tax_amount'
         );

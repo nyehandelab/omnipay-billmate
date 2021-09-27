@@ -113,8 +113,7 @@ abstract class AbstractOrderRequest extends AbstractRequest
 
     public function setCheckoutData(array $data)
     {
-        // TODO: Should this be serialized?
-        $this->setParameter('checkout_data', serialize($data));
+        $this->setParameter('checkout_data', $data);
 
         return $this;
     }
@@ -122,6 +121,42 @@ abstract class AbstractOrderRequest extends AbstractRequest
     public function getCheckoutData()
     {
         return $this->getParameter('checkout_data');
+    }
+
+    public function setPaymentData(array $data)
+    {
+        $this->setParameter('payment_data', $data);
+
+        return $this;
+    }
+
+    public function getPaymentData()
+    {
+        return $this->getParameter('payment_data');
+    }
+
+    public function setPaymentInfo(array $data)
+    {
+        $this->setParameter('payment_info', $data);
+
+        return $this;
+    }
+
+    public function getPaymentInfo()
+    {
+        return $this->getParameter('payment_info');
+    }
+
+    public function setCart(array $data)
+    {
+        $this->setParameter('cart', $data);
+
+        return $this;
+    }
+
+    public function getCart()
+    {
+        return $this->getParameter('cart');
     }
 
     /**

@@ -21,16 +21,13 @@ trait ItemDataTrait
 
             $totalAmount = ($item->getQuantity() * $item->getPrice()) - $item->getTotalDiscountAmount();
             $orderLines[] = [
-                'type' => $item->getType(),
-                'reference' => $item->getReference(),
-                'name' => $item->getName(),
+                'artnr' => $item->getName(),
+                'title' => $item->getDescription(),
                 'quantity' => $item->getQuantity(),
+                'aprice' => (int) $item->getPrice(),
+                'discount' => $item->getDiscount(),
+                'withouttax' => (int) $totalAmount,
                 'tax_rate' => (int) $item->getTaxRate(),
-                'total_amount' => (int) $totalAmount,
-                'total_tax_amount' => (int) $item->getTotalTaxAmount(),
-                'total_discount_amount' => (int) $item->getTotalDiscountAmount(),
-                'unit_price' => (int) $item->getPrice(),
-                'merchant_data' => $item->getMerchantData(),
             ];
         }
 
