@@ -8,14 +8,6 @@ final class Item extends \Omnipay\Common\Item implements ItemInterface
     /**
      * @inheritDoc
      */
-    public function getMerchantData()
-    {
-        return $this->getParameter('merchant_data');
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getTaxRate()
     {
         return $this->getParameter('tax_rate');
@@ -43,22 +35,6 @@ final class Item extends \Omnipay\Common\Item implements ItemInterface
     public function getTotalTaxAmount()
     {
         return $this->getParameter('total_tax_amount');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getType()
-    {
-        return $this->getParameter('type');
-    }
-
-    /**
-     * @param string $data
-     */
-    public function setMerchantData($data)
-    {
-        $this->setParameter('merchant_data', $data);
     }
 
     /**
@@ -91,23 +67,5 @@ final class Item extends \Omnipay\Common\Item implements ItemInterface
     public function setTotalTaxAmount($amount)
     {
         $this->setParameter('total_tax_amount', $amount);
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->setParameter('type', $type);
-    }
-
-    public function setReference($reference)
-    {
-        $this->setParameter('reference', $reference);
-    }
-
-    public function getReference()
-    {
-        return $this->getParameter('reference');
     }
 }

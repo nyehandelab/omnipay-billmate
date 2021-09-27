@@ -25,7 +25,10 @@ final class InitCheckoutRequest extends AbstractOrderRequest
         $this->validate(
             'language',
             'checkoutdata',
-            'data',
+            'paymentData',
+            'paymentInfo',
+            'Articles',
+            'Cart',
         );
 
         $data = $this->getOrderData();

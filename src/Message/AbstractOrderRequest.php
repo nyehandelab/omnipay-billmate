@@ -132,7 +132,10 @@ abstract class AbstractOrderRequest extends AbstractRequest
         $data = [
             'credentials' => $this->getCredentials(),
             'checkoutdata' => $this->getCheckoutData(),
-            'data' => $this->getData(),
+            'paymentData' => $this->getPaymentData(),
+            'paymentInfo' => $this->getPaymentInfo(),
+            'Articles' => $this->getItemData($this->getItems() ?? new ItemBag()),
+            'Cart' => $this->getCart(),
         ];
 
         return $data;

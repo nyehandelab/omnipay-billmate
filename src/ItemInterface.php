@@ -6,11 +6,6 @@ namespace Nyehandel\Omnipay\Billmate;
 interface ItemInterface extends \Omnipay\Common\ItemInterface
 {
     /**
-     * @return string|null
-     */
-    public function getMerchantData();
-
-    /**
      * Non-negative percentage (i.e. 25 = 25%)
      *
      * @return float|null
@@ -37,11 +32,4 @@ interface ItemInterface extends \Omnipay\Common\ItemInterface
      * @return float|null
      */
     public function getTotalTaxAmount();
-
-    /**
-     * Product type
-     *
-     * @return string|null
-     */
-    public function getType();
 }
