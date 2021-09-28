@@ -6,7 +6,7 @@ namespace Nyehandel\Omnipay\Billmate\Message;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
-final class AuthorizeResponse extends AbstractResponse implements RedirectResponseInterface
+final class UpdateCheckoutResponse extends AbstractResponse implements RedirectResponseInterface
 {
     /**
      * @var string|null
@@ -51,7 +51,7 @@ final class AuthorizeResponse extends AbstractResponse implements RedirectRespon
      */
     public function isSuccessful(): bool
     {
-        // Authorize is only successful once it has been acknowledged
+        // UpdateCheckout is only successful once it has been acknowledged
         return false;
     }
 }

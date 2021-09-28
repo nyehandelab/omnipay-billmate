@@ -24,10 +24,10 @@ trait ItemDataTrait
                 'artnr' => $item->getName(),
                 'title' => $item->getDescription(),
                 'quantity' => $item->getQuantity(),
-                'aprice' => (int) $item->getPrice(),
+                'aprice' => $item->getPrice(),
                 'discount' => $item->getDiscount(),
-                'withouttax' => (int) $totalAmount,
-                'tax_rate' => (int) $item->getTaxRate(),
+                'withouttax' => $totalAmount,
+                'taxrate' => (int) $item->getTaxRate(),
             ];
         }
 

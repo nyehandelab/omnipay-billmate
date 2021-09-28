@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Nyehandel\Omnipay\Billmate\Message;
 
-use Nyehandel\Omnipay\Billmate\ItemBag;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Http\Exception\NetworkException;
@@ -12,7 +11,7 @@ use Omnipay\Common\Http\Exception\RequestException;
 /**
  * Creates a Klarna Checkout order if it does not exist
  */
-final class InitCheckoutRequest extends AbstractOrderRequest
+final class GetPaymentinfoRequest extends AbstractRequest
 {
     /**
      * @inheritDoc
@@ -22,36 +21,15 @@ final class InitCheckoutRequest extends AbstractOrderRequest
     public function getData()
     {
         $this->validate(
-            'items',
-            'checkout_data',
-            'payment_data',
+            'transactionReference'
         );
 
-        $data = $this->getOrderData();
-        $data['function'] = 'initCheckout';
+        $data['data']['number'] = $this->getParameter('transactionReference');
+        $data['credentials'] = $this->getCredentials($data['data']);
+
+        $data['function'] = 'getPaymentinfo';
 
         return $data;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getOrderData(): array
-    {
-        $data = [
-            'CheckoutData' => $this->getCheckoutData(),
-            'PaymentData' => $this->getPaymentData(),
-            'PaymentInfo' => $this->getPaymentInfo(),
-            'Articles' => $this->getItemData($this->getItems() ?? new ItemBag()),
-            'Cart' => $this->getCart(),
-        ];
-
-        $orderData = [
-            'credentials' => $this->getCredentials($data),
-            'data' => $data,
-        ];
-
-        return $orderData;
     }
 
     /**
@@ -71,10 +49,7 @@ final class InitCheckoutRequest extends AbstractOrderRequest
      */
     public function sendData($data)
     {
-        $response = $this->getTransactionReference() ?
-            $this->sendRequest('GET', '/'.$this->getTransactionReference(), $data) :
-            $this->sendRequest('POST', '/', $data);
-
+        $response = $this->sendRequest('POST', '/', $data);
 
         if ($response->getStatusCode() >= 400) {
             throw new InvalidResponseException(
@@ -82,7 +57,7 @@ final class InitCheckoutRequest extends AbstractOrderRequest
             );
         }
 
-        return new InitCheckoutResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
+        return new GetPaymentinfoResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
     }
 
     /**

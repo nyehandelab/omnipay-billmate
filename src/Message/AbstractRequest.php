@@ -23,6 +23,27 @@ abstract class AbstractRequest extends BaseAbstractRequest
     const VERSION = '1.0';
     const CLIENT = 'Nyehandel:Billmate:' . self::VERSION;
 
+
+    /**
+     * @return string
+     */
+    public function getEId(): string
+    {
+        return $this->getParameter('eId');
+    }
+
+    /**
+     * @param string $eId
+     *
+     * @return $this
+     */
+    public function setEId(string $eId): self
+    {
+        $this->setParameter('eId', $eId);
+
+        return $this;
+    }
+
     /**
      * @return Money|null
      */
@@ -126,7 +147,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
             'hash' => $this->hash(json_encode($data)),
             'version' => self::API_VERSION,
             'client' => self::CLIENT,
-            'language' => 'en',
+            'language' => 'sv',
             'serverdata' => $this->serverData(),
             'time' => microtime(),
             'test' => $this->getParameter('testMode')

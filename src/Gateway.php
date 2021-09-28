@@ -6,12 +6,14 @@ namespace Nyehandel\Omnipay\Billmate;
 use Nyehandel\Omnipay\Billmate\Message\AcknowledgeRequest;
 use Nyehandel\Omnipay\Billmate\Message\AuthorizeRequest;
 use Nyehandel\Omnipay\Billmate\Message\CaptureRequest;
+use Nyehandel\Omnipay\Billmate\Message\GetPaymentinfoRequest;
 use Nyehandel\Omnipay\Billmate\Message\InitCheckoutRequest;
+use Nyehandel\Omnipay\Billmate\Message\UpdateCheckoutRequest;
 use Nyehandel\Omnipay\Billmate\Message\VoidRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 
-final class Gateway extends AbstractGateway implements GatewayInterface
+final class Gateway extends AbstractGateway
 {
 
     const BASE_URL = 'https://api.billmate.se';
@@ -22,28 +24,14 @@ final class Gateway extends AbstractGateway implements GatewayInterface
         return $this->createRequest(InitCheckoutRequest::class, $options);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function acknowledge(array $options = []): RequestInterface
+    public function updateCheckout(array $options = []): RequestInterface
     {
-        return $this->createRequest(AcknowledgeRequest::class, $options);
+        return $this->createRequest(UpdateCheckoutRequest::class, $options);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function authorize(array $options = [])
+    public function getPaymentinfo(array $options = []): RequestInterface
     {
-        return $this->createRequest(AuthorizeRequest::class, $options);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function capture(array $options = [])
-    {
-        return $this->createRequest(CaptureRequest::class, $options);
+        return $this->createRequest(GetPaymentinfoRequest::class, $options);
     }
 
     /**

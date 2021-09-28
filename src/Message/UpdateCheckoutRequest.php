@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Nyehandel\Omnipay\Billmate\Message;
 
+use Nyehandel\Omnipay\Billmate\ItemBag;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Http\Exception\NetworkException;
@@ -11,10 +12,8 @@ use Omnipay\Common\Http\Exception\RequestException;
 /**
  * Creates a Klarna Checkout order if it does not exist
  */
-final class AuthorizeRequest extends AbstractOrderRequest
+final class UpdateCheckoutRequest extends AbstractOrderRequest
 {
-    use CheckoutDataTrait;
-
     /**
      * @inheritDoc
      *
@@ -23,18 +22,36 @@ final class AuthorizeRequest extends AbstractOrderRequest
     public function getData()
     {
         $this->validate(
-            'amount',
-            'currency',
             'items',
-            'language',
-            'purchase_country',
-            'tax_amount'
+            'transactionReference'
         );
 
         $data = $this->getOrderData();
-        $data['merchant_urls'] = $this->getMerchantUrls();
+
+        $data['function'] = 'updateCheckout';
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOrderData(): array
+    {
+        $data = [
+            'Articles' => $this->getItemData($this->getItems() ?? new ItemBag()),
+            'Cart' => $this->getCart(),
+            'PaymentData' => [
+                'number' => $this->getParameter('transactionReference')
+            ],
+        ];
+
+        $orderData = [
+            'credentials' => $this->getCredentials($data),
+            'data' => $data,
+        ];
+
+        return $orderData;
     }
 
     /**
@@ -54,9 +71,7 @@ final class AuthorizeRequest extends AbstractOrderRequest
      */
     public function sendData($data)
     {
-        $response = $this->getTransactionReference() ?
-            $this->sendRequest('GET', '/checkout/v3/orders/'.$this->getTransactionReference(), $data) :
-            $this->sendRequest('POST', '/checkout/v3/orders', $data);
+        $response = $this->sendRequest('POST', '/', $data);
 
         if ($response->getStatusCode() >= 400) {
             throw new InvalidResponseException(
@@ -64,7 +79,7 @@ final class AuthorizeRequest extends AbstractOrderRequest
             );
         }
 
-        return new AuthorizeResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
+        return new UpdateCheckoutResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
     }
 
     /**
