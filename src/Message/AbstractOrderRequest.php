@@ -12,6 +12,46 @@ abstract class AbstractOrderRequest extends AbstractRequest
     use ItemDataTrait;
 
     /**
+     * @return string
+     */
+    public function getEId(): string
+    {
+        return $this->getParameter('eId');
+    }
+
+    /**
+     * @param string $eId
+     *
+     * @return $this
+     */
+    public function setEId(string $eId): self
+    {
+        $this->setParameter('eId', $eId);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecret(): string
+    {
+        return $this->getParameter('secret');
+    }
+
+    /**
+     * @param string $secret
+     *
+     * @return $this
+     */
+    public function setSecret(string $secret): self
+    {
+        $this->setParameter('secret', $secret);
+
+        return $this;
+    }
+
+    /**
      * @return Address|null
      */
     public function getBillingAddress()
@@ -165,14 +205,18 @@ abstract class AbstractOrderRequest extends AbstractRequest
     protected function getOrderData(): array
     {
         $data = [
-            'credentials' => $this->getCredentials(),
-            'checkoutdata' => $this->getCheckoutData(),
-            'paymentData' => $this->getPaymentData(),
-            'paymentInfo' => $this->getPaymentInfo(),
+            'CheckoutData' => $this->getCheckoutData(),
+            'PaymentData' => $this->getPaymentData(),
+            'PaymentInfo' => $this->getPaymentInfo(),
             'Articles' => $this->getItemData($this->getItems() ?? new ItemBag()),
             'Cart' => $this->getCart(),
         ];
 
-        return $data;
+        $orderData = [
+            'credentials' => $this->getCredentials($data),
+            'data' => $data,
+        ];
+
+        return $orderData;
     }
 }

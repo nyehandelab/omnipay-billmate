@@ -19,6 +19,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
 {
     use CurrencyAwareTrait;
 
+    const API_VERSION = '2.1.7';
+    const VERSION = '1.0';
+    const CLIENT = 'Nyehandel:Billmate:' . self::VERSION;
+
     /**
      * @return Money|null
      */
@@ -115,10 +119,17 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $this->setParameter('tax_amount', $value);
     }
 
-    public function getCredentials()
+    public function getCredentials(array $data)
     {
         return [
             'id' => $this->getParameter('eId'),
+            'hash' => $this->hash(json_encode($data)),
+            'version' => self::API_VERSION,
+            'client' => self::CLIENT,
+            'language' => 'en',
+            'serverdata' => $this->serverData(),
+            'time' => microtime(),
+            'test' => $this->getParameter('testMode')
         ];
     }
 
@@ -137,14 +148,25 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @param mixed $args
+     * @param string $args - json encoded array of data
      *
      * Generates a hash for the request based on the secret combined with the data for the current request
      *
      * @return string
      */
-    private function hash($args) {
-        return hash_hmac('sha512', $args, $this->secret);
+    private function hash(string $args) {
+        return hash_hmac('sha512', $args, $this->getParameter('secret'));
+    }
+
+    private function serverData()
+    {
+        return [
+            'ip' => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'],
+            'referer' => $_SERVER['HTTP_REFERER'],
+            'user agent' => $_SERVER['HTTP_USER_AGENT'],
+            'method' => $_SERVER['REQUEST_METHOD'],
+            'uri' => $_SERVER['REQUEST_URI'],
+        ];
     }
 
     /**
@@ -159,24 +181,23 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     protected function sendRequest(string $method, string $url, $data): ResponseInterface
     {
-        $headers = (new AuthenticationRequestHeaderProvider())->getHeaders($this);
-
         if ('GET' === $method) {
             return $this->httpClient->request(
                 $method,
                 $this->getBaseUrl().$url,
-                $headers
             );
         }
+
+        $data = json_encode($data);
 
         return $this->httpClient->request(
             $method,
             $this->getBaseUrl().$url,
-            array_merge(
-                ['Content-Type' => 'application/json'],
-                $headers
-            ),
-            \json_encode($data)
+            [
+                'Content-Type' => 'application/json',
+                'Content-Length' => strlen($data)
+            ],
+            $data
         );
     }
 }
