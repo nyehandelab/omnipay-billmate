@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Nyehandel\Omnipay\Billmate;
 
 use Nyehandel\Omnipay\Billmate\Message\AcknowledgeRequest;
+use Nyehandel\Omnipay\Billmate\Message\ActivatePaymentRequest;
 use Nyehandel\Omnipay\Billmate\Message\AuthorizeRequest;
 use Nyehandel\Omnipay\Billmate\Message\CaptureRequest;
 use Nyehandel\Omnipay\Billmate\Message\GetPaymentinfoRequest;
@@ -32,6 +33,11 @@ final class Gateway extends AbstractGateway
     public function getPaymentinfo(array $options = []): RequestInterface
     {
         return $this->createRequest(GetPaymentinfoRequest::class, $options);
+    }
+
+    public function activatePayment(array $options = []): RequestInterface
+    {
+        return $this->createRequest(ActivatePaymentRequest::class, $options);
     }
 
     /**

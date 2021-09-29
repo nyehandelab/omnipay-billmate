@@ -11,7 +11,7 @@ use Omnipay\Common\Http\Exception\RequestException;
 /**
  * Creates a Klarna Checkout order if it does not exist
  */
-final class GetPaymentinfoRequest extends AbstractApiRequest
+final class ActivatePaymentRequest extends AbstractApiRequest
 {
     /**
      * @inheritDoc
@@ -26,17 +26,9 @@ final class GetPaymentinfoRequest extends AbstractApiRequest
 
         $data = $this->getApiData();
 
-        $data['function'] = 'getPaymentinfo';
+        $data['function'] = 'activatePayment';
 
         return $data;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getRenderUrl()
-    {
-        return $this->getParameter('render_url');
     }
 
     /**
@@ -56,18 +48,6 @@ final class GetPaymentinfoRequest extends AbstractApiRequest
             );
         }
 
-        return new GetPaymentinfoResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
-    }
-
-    /**
-     * @param string $url
-     *
-     * @return $this
-     */
-    public function setRenderUrl(string $url): self
-    {
-        $this->setParameter('render_url', $url);
-
-        return $this;
+        return new ActivatePaymentResponse($this, $this->getResponseBody($response));
     }
 }
