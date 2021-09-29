@@ -183,10 +183,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         return [
             'ip' => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'],
-            'referer' => $_SERVER['HTTP_REFERER'],
-            'user agent' => $_SERVER['HTTP_USER_AGENT'],
-            'method' => $_SERVER['REQUEST_METHOD'],
-            'uri' => $_SERVER['REQUEST_URI'],
+            'referer' => $_SERVER['HTTP_REFERER'] ?? '',
+            'user agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+            'method' => $_SERVER['REQUEST_METHOD'] ?? '',
+            'uri' => $_SERVER['REQUEST_URI'] ?? '',
         ];
     }
 
