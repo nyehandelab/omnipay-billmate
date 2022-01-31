@@ -182,7 +182,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     private function serverData()
     {
         return [
-            'ip' => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'],
+            'ip' => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '',
             'referer' => $_SERVER['HTTP_REFERER'] ?? '',
             'user agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
             'method' => $_SERVER['REQUEST_METHOD'] ?? '',
