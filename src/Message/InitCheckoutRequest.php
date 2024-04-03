@@ -75,14 +75,14 @@ final class InitCheckoutRequest extends AbstractOrderRequest
             $this->sendRequest('GET', '/'.$this->getTransactionReference(), $data) :
             $this->sendRequest('POST', '/', $data);
 
-
-        if ($response->getStatusCode() >= 400) {
+        $responseBody = $this->getResponseBody($response);
+        if(isset($responseBody['code'])){
             throw new InvalidResponseException(
-                \sprintf('Reason: %s (%s)', $response->getReasonPhrase(), $response->getBody())
+                \sprintf('Error: %s', $responseBody['message'])
             );
         }
 
-        return new InitCheckoutResponse($this, $this->getResponseBody($response), $this->getRenderUrl());
+        return new InitCheckoutResponse($this, $responseBody, $this->getRenderUrl());
     }
 
     /**
